@@ -59,6 +59,6 @@ public class JSSE {
     if (Arrays.equals(digest, revokedCertDigest)) {
       throw new RuntimeException();
     }
-    System.out.println("Created HTTPSConnection: stripe");
+    System.out.println("Created HTTPSConnection: " + conn.getResponseCode());
   }
 }
