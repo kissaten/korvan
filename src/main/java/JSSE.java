@@ -1,3 +1,8 @@
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
+import com.stripe.net.APIResource;
+
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -9,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.cert.Certificate;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class JSSE {
@@ -42,23 +48,20 @@ public class JSSE {
   }
 
   public static void stripe() throws Exception {
-    String url = "https://api.stripe.com";
-    URL stripeURL = new URL(null, url);
-
-    java.net.HttpURLConnection hconn = (java.net.HttpURLConnection) stripeURL.openConnection();
-
-    javax.net.ssl.HttpsURLConnection conn = (javax.net.ssl.HttpsURLConnection) hconn;
-    conn.connect();
-    Certificate[] certs = conn.getServerCertificates();
-
-    MessageDigest md = MessageDigest.getInstance("SHA-1");
-    byte[] der = certs[0].getEncoded();
-    md.update(der);
-    byte[] digest = md.digest();
-    byte[] revokedCertDigest = {(byte) 0x05, (byte) 0xc0, (byte) 0xb3, (byte) 0x64, (byte) 0x36, (byte) 0x94, (byte) 0x47, (byte) 0x0a, (byte) 0x88, (byte) 0x8c, (byte) 0x6e, (byte) 0x7f, (byte) 0xeb, (byte) 0x5c, (byte) 0x9e, (byte) 0x24, (byte) 0xe8, (byte) 0x23, (byte) 0xdc, (byte) 0x53};
-    if (Arrays.equals(digest, revokedCertDigest)) {
-      throw new RuntimeException();
+    Stripe.apiKey = System.getenv("STRIPE_API_KEY");
+    Map<String, Object> chargeMap = new HashMap<String, Object>();
+    chargeMap.put("amount", 100);
+    chargeMap.put("currency", "usd");
+    Map<String, Object> cardMap = new HashMap<String, Object>();
+    cardMap.put("number", "4242424242424242");
+    cardMap.put("exp_month", 12);
+    cardMap.put("exp_year", 2020);
+    chargeMap.put("card", cardMap);
+    try {
+      Charge charge = Charge.create(chargeMap);
+      System.out.println(charge);
+    } catch (StripeException e) {
+      e.printStackTrace();
     }
-    System.out.println("Created HTTPSConnection: " + conn.getResponseCode());
   }
 }
