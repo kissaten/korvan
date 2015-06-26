@@ -27,7 +27,7 @@ public class SSLTest {
 
         System.out.println("CipherSuite:");
         for (String cipher : cipherSuites) {
-          System.out.println("connect okay " + cipher);
+          System.out.println("  " + cipher);
         }
     }
 }
