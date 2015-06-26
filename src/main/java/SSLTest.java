@@ -2,6 +2,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.SSLContext;
+
 
 public class SSLTest {
 
@@ -18,5 +20,14 @@ public class SSLTest {
         System.out.println (sock.getInetAddress().getHostName() + " = " + sock.getInetAddress().getHostAddress());
         ((SSLSocket)sock).startHandshake();
         System.out.println ("connect okay " + ((SSLSocket)sock).getSession().getCipherSuite());
+
+        SSLContext context = SSLContext.getDefault();
+        SSLSocketFactory sf = context.getSocketFactory();
+        String[] cipherSuites = sf.getSupportedCipherSuites();
+
+        System.out.println("CipherSuite:");
+        for (String cipher : cipherSuites) {
+          System.out.println("connect okay " + cipher);
+        }
     }
 }
