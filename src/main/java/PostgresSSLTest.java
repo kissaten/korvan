@@ -13,6 +13,8 @@ public class PostgresSSLTest {
     Properties props = pgSsl.loadDefaultProperties();
 
     System.out.println("sslmode: " + props.getProperty("sslmode", "NULL"));
+    System.out.println("ssl: " + props.getProperty("ssl", "NULL"));
+    System.out.println("sslfactory: " + props.getProperty("sslfactory", "NULL"));
   }
 
 
