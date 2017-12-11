@@ -17,7 +17,7 @@ public class JCE {
             (byte)0x17, (byte)0xAF, (byte)0xE2, (byte)0x08
         };
 
-    private static final int iterations = 311;
+    private static final int iterations = 65536;
 
     public static void main(String... args) throws Exception {
         String data = "Test";
@@ -48,8 +48,8 @@ public class JCE {
     }
 
     private Cipher getCipher(int mode) throws Exception {
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-        KeySpec spec = new PBEKeySpec(PASSWORD, SALT, 65536, 256);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        KeySpec spec = new PBEKeySpec(PASSWORD, SALT, iterations, 256);
         SecretKey tmp = factory.generateSecret(spec);
         SecretKey key = new SecretKeySpec(tmp.getEncoded(), "AES");
 
