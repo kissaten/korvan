@@ -9,7 +9,7 @@
     <version>1.0</version>
 
     <properties>
-        <jetty.version>8.0.4.v20111024</jetty.version>
+        <jetty.version>9.4.12.v20180830</jetty.version>
     </properties>
 
     <packaging>jar</packaging>
